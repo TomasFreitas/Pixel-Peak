@@ -19,6 +19,8 @@ current_game_state = GAME_STATE_MAIN_MENU
 
 # --- Sound Variables ---
 is_sound_on = True
+# Definindo o volume padrão da música (0.0 a 1.0)
+MUSIC_VOLUME = 0.2
 
 # --- Menu Settings ---
 SKY_BLUE = (135, 206, 235)
@@ -579,16 +581,18 @@ def on_mouse_down(pos):
             if is_sound_on:
                 music.stop()
                 music.play("game_music")
+                music.set_volume(MUSIC_VOLUME) # Definindo o volume da música do jogo
         elif sound_button.collidepoint(pos):
             is_sound_on = not is_sound_on
             if is_sound_on:
-                music.set_volume(1)
+                music.set_volume(MUSIC_VOLUME) # Ajuste para o volume desejado quando o som é LIGADO
                 if current_game_state == GAME_STATE_MAIN_MENU:
                     music.play("menu_music")
+                    
                 elif current_game_state == GAME_STATE_IN_GAME and not music.is_playing("game_music"):
-                     music.play("game_music")
+                    music.play("game_music")
             else:
-                music.set_volume(0)
+                music.set_volume(0) # Permanece 0 para MUTAR
         elif exit_button.collidepoint(pos):
             current_game_state = GAME_STATE_EXIT
 
@@ -601,17 +605,20 @@ def on_key_down(key):
             if is_sound_on:
                 music.stop()
                 music.play("menu_music")
+                music.set_volume(MUSIC_VOLUME) # Ajuste aqui
         elif key == keys.ESCAPE:
             current_game_state = GAME_STATE_EXIT
     elif current_game_state == GAME_STATE_IN_GAME:
         if key == keys.ESCAPE:
-             current_game_state = GAME_STATE_MAIN_MENU
-             if is_sound_on:
+            current_game_state = GAME_STATE_MAIN_MENU
+            if is_sound_on:
                 music.stop()
                 music.play("menu_music")
+                music.set_volume(MUSIC_VOLUME) # Ajuste aqui
             
 # --- Initialization ---
 if is_sound_on:
     music.play("menu_music")
+    music.set_volume(MUSIC_VOLUME) # Adicione ou ajuste esta linha para o volume desejado (ex: 60%)
 
 pgzrun.go()
